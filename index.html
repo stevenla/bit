@@ -88,7 +88,7 @@
         triambic.rotation.y += TURN_RATE;
 
         var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
-        var triambicScale = 0.90 * Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10;
+        var triambicScale = 0.93 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
 
         poly.scale.set(compoundScale, compoundScale, compoundScale);
         triambic.scale.set(triambicScale, triambicScale, triambicScale);
