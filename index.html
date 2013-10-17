@@ -17,29 +17,32 @@
         radius = radius || 1;
         detail = detail || 0;
 
+        var p = (1 + Math.sqrt(5)) / 2;
+        var q = 1 / p;
+
         var vertices = [
             // Color references from wikipedia
             // http://en.wikipedia.org/wiki/Dodecahedron#Cartesian_coordinates
-            [0, 0, 1.070466], // bottom right pink
-            [0.7136442, 0, 0.7978784], // top right pink
-            [-0.3568221, 0.618034, 0.7978784], // +x, +y, -z
-            [-0.3568221, -0.618034, 0.7978784], // +x, -y, -z
-            [0.7978784, 0.618034, 0.3568221], // +x, +y, +z
-            [0.7978784, -0.618034, 0.3568221], // +x, -y, +z
-            [-0.9341724, 0.381966, 0.3568221], // top left green
-            [0.1362939, 1.0, 0.3568221], // top right blue
-            [0.1362939, -1.0, 0.3568221], // bottom right blue
-            [-0.9341724, -0.381966, 0.3568221], // bottom left green
-            [0.9341724, 0.381966, -0.3568221], // top right green
-            [0.9341724, -0.381966, -0.3568221], // bottom right green
-            [-0.7978784, 0.618034, -0.3568221], // -x, +y, -z
-            [-0.1362939, 1.0, -0.3568221], // top left blue
-            [-0.1362939, -1.0, -0.3568221], // bottom left blue
-            [-0.7978784, -0.618034, -0.3568221], // -x, -y, -z
-            [0.3568221, 0.618034, -0.7978784], // -x +y +z
-            [0.3568221, -0.618034, -0.7978784], // +x -y +z
-            [-0.7136442, 0, -0.7978784], // bottom left pink
-            [0, 0, -1.070466], // top left pink
+            [ p,  0, -q], // bottom right pink
+            [ p,  0,  q], // top right pink
+            [ 1,  1, -1], // +x, +y, -z
+            [ 1, -1, -1], // +x, -y, -z
+            [ 1,  1,  1], // +x, +y, +z
+            [ 1, -1,  1], // +x, -y, +z
+            [ 0,  q, -p], // top left green
+            [ q,  p,  0], // top right blue
+            [ q, -p,  0], // bottom right blue
+            [ 0, -q, -p], // bottom left green
+            [ 0,  q, -p], // top right green
+            [ 0, -q, -p], // bottom right green
+            [-1,  1, -1], // -x, +y, -z
+            [-q,  p,  0], // top left blue
+            [-q, -p,  0], // bottom left blue
+            [-1, -1, -1], // -x, -y, -z
+            [-1,  1,  1], // -x +y +z
+            [ 1, -1,  1], // +x -y +z
+            [-p, 0, -q], // bottom left pink
+            [-p, 0,  q], // top left pink
 
         ];
 
@@ -91,7 +94,7 @@
         var dodeca = makeDodeca(radius/1.096, detail);
         var icosa2 = new THREE.IcosahedronGeometry(radius, detail);
         icosa2.applyMatrix(new THREE.Matrix4().makeRotationY(0.3675));
-        dodeca.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2))
+        //dodeca.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2))
 
         var combined = new THREE.Geometry();
         THREE.GeometryUtils.merge(combined, dodeca);
