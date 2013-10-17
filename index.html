@@ -23,26 +23,26 @@
         var vertices = [
             // Color references from wikipedia
             // http://en.wikipedia.org/wiki/Dodecahedron#Cartesian_coordinates
-            [ p,  0, -q], // bottom right pink
-            [ p,  0,  q], // top right pink
-            [ 1,  1, -1], // +x, +y, -z
-            [ 1, -1, -1], // +x, -y, -z
-            [ 1,  1,  1], // +x, +y, +z
+            [-q,  0,  p], // bottom right pink 0
+            [ q,  0,  p], // top right pink
+            [-1,  1,  1], // +x, +y, -z 2
+            [-1, -1,  1], // +x, -y, -z
+            [ 1,  1,  1], // +x, +y, +z 4
             [ 1, -1,  1], // +x, -y, +z
-            [ 0,  q, -p], // top left green
-            [ q,  p,  0], // top right blue
-            [ q, -p,  0], // bottom right blue
-            [ 0, -q, -p], // bottom left green
-            [ 0,  q, -p], // top right green
-            [ 0, -q, -p], // bottom right green
-            [-1,  1, -1], // -x, +y, -z
-            [-q,  p,  0], // top left blue
-            [-q, -p,  0], // bottom left blue
+            [-p,  q,  0], // top left green 6
+            [ 0,  p,  q], // top right blue
+            [ 0, -p,  q], // bottom right blue 8
+            [-p, -q,  0], // bottom left green
+            [ p,  q,  0], // top right green 10
+            [ p, -q,  0], // bottom right green
+            [-1,  1, -1], // -x, +y, -z 12
+            [ 0,  p, -q], // top left blue
+            [ 0, -p, -q], // bottom left blue 14
             [-1, -1, -1], // -x, -y, -z
-            [-1,  1,  1], // -x +y +z
-            [ 1, -1,  1], // +x -y +z
-            [-p, 0, -q], // bottom left pink
-            [-p, 0,  q], // top left pink
+            [ 1,  1, -1], // -x +y +z 16
+            [ 1, -1, -1], // +x -y +z
+            [-q,  0, -p], // bottom left pink 18
+            [ q,  0, -p], // top left pink
 
         ];
 
@@ -92,18 +92,19 @@
 
     function makeCompoundDodecaIcosa(radius, detail) {
         var dodeca = makeDodeca(radius/1.096, detail);
+        //var dodeca = makeDodeca(1, detail);
         var icosa2 = new THREE.IcosahedronGeometry(radius, detail);
-        icosa2.applyMatrix(new THREE.Matrix4().makeRotationY(0.3675));
-        //dodeca.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI/2))
 
         var combined = new THREE.Geometry();
         THREE.GeometryUtils.merge(combined, dodeca);
-        //THREE.GeometryUtils.merge(combined, icosa2);
+        THREE.GeometryUtils.merge(combined, icosa2);
         return combined;
     }
 
     init();
     animate();
+
+    var poly;
 
     function init() {
         // Create the scene and set the scene size.
@@ -142,7 +143,7 @@
         icosahedron.position.set(10, 0, 0);
         scene.add(icosahedron);
 
-        var poly = new THREE.Mesh(
+        poly = new THREE.Mesh(
             makeCompoundDodecaIcosa(5, 0),
             sphereMaterial);
         scene.add(poly);
@@ -152,6 +153,9 @@
     function animate() {
         requestAnimationFrame(animate);
         renderer.render(scene, camera);
+        poly.rotation.x += 0.01;
+        poly.rotation.y += 0.01;
+        poly.rotation.x += 0.01;
     }
  
   </script>
