@@ -9,6 +9,7 @@
   <script src="js/three.min.js"></script>
   <script src="js/DodecahedronGeometry.js"></script>
   <script src="js/SmallTriambicIcosahedronGeometry.js"></script>
+  <script src="js/SecondStellationIcosahedronGeometry.js"></script>
  
   <script>
  
@@ -28,7 +29,7 @@
     init();
     animate();
 
-    var poly, triambic;
+    var compound, triambic, octahedron, second;
 
     function init() {
         // Create the scene and set the scene size.
@@ -52,22 +53,31 @@
         light.position.set(10, 50, 130);
         scene.add(light);
 
-        var sphereMaterial = new THREE.MeshNormalMaterial({
+        var material = new THREE.MeshNormalMaterial({
             color: 0xCC0000
         });
 
         triambic = new THREE.Mesh(
             new THREE.SmallTriambicIcosahedronGeometry(5, 0),
-            sphereMaterial);
-
-        triambic.position.set(0, 0, 0);
-        //triambic.rotation.set(0.10, 0, 0.29);
+            material);
         scene.add(triambic);
 
-        poly = new THREE.Mesh(
+        compound = new THREE.Mesh(
             makeCompoundDodecaIcosa(5, 0),
-            sphereMaterial);
-        scene.add(poly);
+            material);
+        scene.add(compound);
+
+        octahedron = new THREE.Mesh(
+            new THREE.OctahedronGeometry(5, 0),
+            material);
+        octahedron.position.set(10, 0, 0);
+        scene.add(octahedron);
+
+        second = new THREE.Mesh(
+            new THREE.SecondStellationIcosahdronGeometry(5, 0),
+            material);
+        second.position.set(-10, 0, 0);
+        scene.add(second);
 
     }
 
@@ -75,22 +85,24 @@
 
     function animate() {
         requestAnimationFrame(animate);
+        renderer.render(scene, camera);
 
         var TURN_RATE = 0.02;
         var SCALE_RATE = Math.PI * 3;
 
         t += 1;
-        renderer.render(scene, camera);
-        poly.rotation.x += TURN_RATE;
-        poly.rotation.y += TURN_RATE;
 
+        compound.rotation.x += TURN_RATE;
+        compound.rotation.y += TURN_RATE;
         triambic.rotation.x += TURN_RATE;
         triambic.rotation.y += TURN_RATE;
 
+        octahedron.rotation.y += TURN_RATE;
+        second.rotation.z += TURN_RATE;
+
         var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
         var triambicScale = 0.93 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
-
-        poly.scale.set(compoundScale, compoundScale, compoundScale);
+        compound.scale.set(compoundScale, compoundScale, compoundScale);
         triambic.scale.set(triambicScale, triambicScale, triambicScale);
     }
  

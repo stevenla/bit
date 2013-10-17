@@ -7,9 +7,6 @@ THREE.SmallTriambicIcosahedronGeometry = function ( radius, detail ) {
     this.radius = radius;
     this.detail = detail;
 
-    var p = ( 1 + Math.sqrt( 5 ) ) / 2;
-    var q = 1 / p;
-
     var vertices = [
     [0.315685, -0.662013, -0.439085],
     [-0.17384, -0.582197, -0.794246],
