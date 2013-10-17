@@ -47,35 +47,50 @@
         //camera = new THREE.OrthographicCamera( WIDTH / - scale, WIDTH / scale, HEIGHT / scale, HEIGHT / - scale, -10, 10000 );
         scene.add(camera);
 
-        renderer.setClearColor(0x333f47, 1);
+        renderer.setClearColor(0x00262a, 1);
 
         var light = new THREE.PointLight(0xffffff);
         light.position.set(10, 50, 130);
         scene.add(light);
 
-        var material = new THREE.MeshNormalMaterial({
+        var normalMaterial = new THREE.MeshNormalMaterial({
             color: 0xCC0000
+        });
+
+        var neutralMaterial = new THREE.MeshLambertMaterial({
+            color: 0x6cd5ff,
+            shading: THREE.FlatShading
+        });
+
+        var yesMaterial = new THREE.MeshLambertMaterial({
+            color: 0xffcf00,
+            shading: THREE.FlatShading
+        });
+
+        var noMaterial = new THREE.MeshLambertMaterial({
+            color: 0xea2100,
+            shading: THREE.FlatShading
         });
 
         triambic = new THREE.Mesh(
             new THREE.SmallTriambicIcosahedronGeometry(5, 0),
-            material);
+            neutralMaterial);
         scene.add(triambic);
 
         compound = new THREE.Mesh(
             makeCompoundDodecaIcosa(5, 0),
-            material);
+            neutralMaterial);
         scene.add(compound);
 
         octahedron = new THREE.Mesh(
             new THREE.OctahedronGeometry(5, 0),
-            material);
+            yesMaterial);
         octahedron.position.set(10, 0, 0);
         scene.add(octahedron);
 
         second = new THREE.Mesh(
             new THREE.SecondStellationIcosahdronGeometry(5, 0),
-            material);
+            noMaterial);
         second.position.set(-10, 0, 0);
         scene.add(second);
 
