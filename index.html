@@ -17,7 +17,6 @@
 
     function makeCompoundDodecaIcosa(radius, detail) {
         var dodeca = new THREE.DodecahedronGeometry(radius/1.096, detail);
-        //var dodeca = makeDodeca(1, detail);
         var icosa2 = new THREE.IcosahedronGeometry(radius, detail);
 
         var combined = new THREE.Geometry();
@@ -43,6 +42,8 @@
 
         camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 10000);
         camera.position.set(0, 0, 30);
+        var scale = 60;
+        //camera = new THREE.OrthographicCamera( WIDTH / - scale, WIDTH / scale, HEIGHT / scale, HEIGHT / - scale, -10, 10000 );
         scene.add(camera);
 
         renderer.setClearColor(0x333f47, 1);
@@ -55,17 +56,12 @@
             color: 0xCC0000
         });
 
-        var sphere = new THREE.Mesh(
-            new THREE.SphereGeometry(5, 16, 16),
-            sphereMaterial);
-        sphere.position.set(-10, 0, 0);
-        scene.add(sphere);
-
         triambic = new THREE.Mesh(
             new THREE.SmallTriambicIcosahedronGeometry(5, 0),
             sphereMaterial);
 
-        triambic.position.set(10, 0, 0);
+        triambic.position.set(0, 0, 0);
+        //triambic.rotation.set(0.10, 0, 0.29);
         scene.add(triambic);
 
         poly = new THREE.Mesh(
@@ -75,14 +71,27 @@
 
     }
 
+    var t = 0;
+
     function animate() {
         requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-        //poly.rotation.x += 0.01;
-        //poly.rotation.y += 0.01;
 
-        //triambic.rotation.x += 0.01;
-        //triambic.rotation.y += 0.01;
+        var TURN_RATE = 0.02;
+        var SCALE_RATE = Math.PI * 3;
+
+        t += 1;
+        renderer.render(scene, camera);
+        poly.rotation.x += TURN_RATE;
+        poly.rotation.y += TURN_RATE;
+
+        triambic.rotation.x += TURN_RATE;
+        triambic.rotation.y += TURN_RATE;
+
+        var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
+        var triambicScale = 0.90 * Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10;
+
+        poly.scale.set(compoundScale, compoundScale, compoundScale);
+        triambic.scale.set(triambicScale, triambicScale, triambicScale);
     }
  
   </script>
