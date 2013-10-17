@@ -94,6 +94,23 @@
         second.position.set(-10, 0, 0);
         scene.add(second);
 
+        /* Reference for doing a small triambic icosahedron
+         * http://mathworld.wolfram.com/SmallTriambicIcosahedron.html
+
+        var ico = new THREE.Mesh(
+            new THREE.IcosahedronGeometry(3 * 0.9379624, 0),
+            normalMaterial);
+        ico.position.set(0, 8, 0);
+        scene.add(ico);
+
+        var dodec = new THREE.Mesh(
+            new THREE.DodecahedronGeometry(3, 0),
+            normalMaterial);
+        dodec.position.set(0, 8, 0);
+        scene.add(dodec);
+
+         */
+
     }
 
     var t = 0;
@@ -116,7 +133,7 @@
         second.rotation.z += TURN_RATE;
 
         var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
-        var triambicScale = 0.93 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
+        var triambicScale = 0.92 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
         compound.scale.set(compoundScale, compoundScale, compoundScale);
         triambic.scale.set(triambicScale, triambicScale, triambicScale);
     }
