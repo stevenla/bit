@@ -7,6 +7,8 @@
     animate();
 
     function init() {
+        var audio = new AudioPlayer();
+
         // Create the scene and set the scene size.
         scene = new THREE.Scene();
         var WIDTH = window.innerWidth,
@@ -34,9 +36,11 @@
         // Bind events
         document.getElementById('yes').onclick = function() {
             bit.yes();
+            audio.yes();
         };
         document.getElementById('no').onclick = function() {
             bit.no();
+            audio.no();
         };
     }
 
