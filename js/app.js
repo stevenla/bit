@@ -1,5 +1,5 @@
 (function() {
-    var scene, camera, renderer;
+    var scene, camera, renderer, controls;
 
     var bit;
 
@@ -33,6 +33,8 @@
         bit = new Bit( 5 );
         scene.add(bit);
 
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+
         // Bind events
         document.getElementById('yes').onclick = function() {
             bit.yes();
@@ -59,6 +61,7 @@
         bit.animate(t);
 
         renderer.render(scene, camera);
+        controls.update();
     }
 
 

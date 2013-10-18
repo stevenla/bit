@@ -44,14 +44,48 @@
             right: 75%;
             background-color: #ea2100;
         }
+
+        #credits {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+
+            padding: 10px;
+
+            color: #55a3b1;
+
+            font-family: "Helvetica", "Arial", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #credits a {
+            color: #55a3b1;
+            text-decoration: none;
+            border: 1px solid #2f575e;
+            border-radius: 2px;
+
+            padding: 2px;
+            margin: -2px;
+        }
+
+        #credits a:hover {
+            background-color: #2f575e;
+        }
     </style>
 </head>
 <body style="margin: 0;">
 
     <button href="#" id="yes">Yes</button>
     <button href="#" id="no">No</button>
+
+    <div id="credits">
+        <a href="//threejs.org" target="_blank">three.js</a> Bit from <a href="//http://en.wikipedia.org/wiki/Tron" target="_blank">TRON (1982)</a> by <a href="//stevenla.com" target="_blank">Steven La</a>.
+    </div>
  
     <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
     <script src="js/DodecahedronGeometry.js"></script>
     <script src="js/SmallTriambicIcosahedronGeometry.js"></script>
     <script src="js/SecondStellationIcosahedronGeometry.js"></script>
@@ -61,7 +95,6 @@
     <script src="js/BitNeutral.js"></script>
 
     <script src="js/audio.js"></script>
-  
     <script src="js/app.js"></script>
  
 </body>
