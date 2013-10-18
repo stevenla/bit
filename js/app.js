@@ -60,6 +60,7 @@
         */
 
         bit = new Bit( 5 );
+        window.bit = bit;
         scene.add(bit);
 
         octahedron = new THREE.Mesh(
@@ -97,7 +98,6 @@
 
     function animate() {
         requestAnimationFrame(animate);
-        renderer.render(scene, camera);
 
         var TURN_RATE = 0.02;
         var SCALE_RATE = Math.PI * 3;
@@ -108,6 +108,7 @@
         octahedron.rotation.y += TURN_RATE;
         second.rotation.z += TURN_RATE;
 
+        renderer.render(scene, camera);
     }
 
 
