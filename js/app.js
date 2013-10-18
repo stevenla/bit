@@ -4,7 +4,7 @@
     init();
     animate();
 
-    var compound, triambic, octahedron, second;
+    var bit, octahedron, second;
 
     function init() {
         // Create the scene and set the scene size.
@@ -47,6 +47,7 @@
             shading: THREE.FlatShading
         });
 
+        /*
         triambic = new THREE.Mesh(
             new THREE.SmallTriambicIcosahedronGeometry(5, 0),
             neutralMaterial);
@@ -56,6 +57,10 @@
             new THREE.CompoundDodecahedronIcosahedronGeometry(5, 0),
             neutralMaterial);
         scene.add(compound);
+        */
+
+        bit = new Bit( 5 );
+        scene.add(bit);
 
         octahedron = new THREE.Mesh(
             new THREE.OctahedronGeometry(5, 0),
@@ -98,19 +103,11 @@
         var SCALE_RATE = Math.PI * 3;
 
         t += 1;
-
-        compound.rotation.x += TURN_RATE;
-        compound.rotation.y += TURN_RATE;
-        triambic.rotation.x += TURN_RATE;
-        triambic.rotation.y += TURN_RATE;
+        bit.animate(t);
 
         octahedron.rotation.y += TURN_RATE;
         second.rotation.z += TURN_RATE;
 
-        var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
-        var triambicScale = 0.92 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
-        compound.scale.set(compoundScale, compoundScale, compoundScale);
-        triambic.scale.set(triambicScale, triambicScale, triambicScale);
     }
 
 
