@@ -1,11 +1,9 @@
+var TURN_RATE = 0.02;
+var SCALE_RATE = Math.PI * 2;
+
 function Bit ( radius ) {
 
     THREE.Object3D.call(this);
-
-    var neutralMaterial = new THREE.MeshLambertMaterial({
-        color: 0x6cd5ff,
-        shading: THREE.FlatShading
-    });
 
     var yesMaterial = new THREE.MeshLambertMaterial({
         color: 0xffcf00,
@@ -21,45 +19,48 @@ function Bit ( radius ) {
     this.animationStart = -1;
 
     this.shapes = {
-        compound: new THREE.Mesh(
-            new THREE.CompoundDodecahedronIcosahedronGeometry( radius, 0 ),
-            neutralMaterial),
-        triambic: new THREE.Mesh(
-            new THREE.SmallTriambicIcosahedronGeometry( radius, 0 ),
-            neutralMaterial),
-        octahedron: new THREE.Mesh(
-            new THREE.OctahedronGeometry(5, 0),
-            yesMaterial)
+        neutral: new BitNeutral( radius ),
+        yes: new THREE.Mesh(
+            new THREE.OctahedronGeometry( radius, 0 ),
+            yesMaterial),
+        no: new THREE.Mesh(
+            new THREE.SecondStellationIcosahdronGeometry( radius, 0 ),
+            noMaterial)
     };
 
-
-    this.add( this.shapes.compound );
-    this.add( this.shapes.triambic );
-    this.add( this.shapes.octahedron );
+    this.add( this.shapes.neutral );
+    this.add( this.shapes.yes );
+    this.add( this.shapes.no );
 }
 
 Bit.prototype = Object.create( THREE.Object3D.prototype );
 
-Bit.prototype.changeState = function ( state ) {
+Bit.prototype.yes = function () {
     this.animationStart = -1;
-    this.state = state;
+    this.state = true;
+    return this.state;
 };
 
-Bit.prototype.animate = function ( t ) {
-    var TURN_RATE = 0.02;
-    var SCALE_RATE = Math.PI * 3;
+Bit.prototype.no = function () {
+    this.animationStart = -1;
+    this.state = false;
+    return this.state;
+}
 
-    this.shapes.compound.rotation.x += TURN_RATE;
-    this.shapes.compound.rotation.y += TURN_RATE;
-    this.shapes.triambic.rotation.x += TURN_RATE;
-    this.shapes.triambic.rotation.y += TURN_RATE;
+Bit.prototype.null = function () {
+    this.animationStart = -1;
+    this.state = null;
+    return this.state;
+}
+
+Bit.prototype.animate = function ( t ) {
+
+    this.shapes.neutral.animate( t );
 
     if ( this.state === null ) {
-        var compoundScale = Math.sin(t / SCALE_RATE) / 10 + 9 / 10;
-        var triambicScale = 0.92 * (Math.sin(t / SCALE_RATE + Math.PI) / 10 + 9 / 10);
-        this.shapes.compound.scale.set(compoundScale, compoundScale, compoundScale);
-        this.shapes.triambic.scale.set(triambicScale, triambicScale, triambicScale);
-        this.shapes.octahedron.scale.set(0.1, 0.1, 0.1);  
+        this.shapes.neutral.scale.set( 1, 1, 1 );
+        this.shapes.yes.scale.set( 0.001, 0.001, 0.001 );
+        this.shapes.no.scale.set( 0.001, 0.001, 0.001 );
     }
 
     if ( this.state === true ) {
@@ -67,17 +68,38 @@ Bit.prototype.animate = function ( t ) {
             this.animationStart = t;
         }
         var animationTime = t - this.animationStart;
-        var theta = animationTime / SCALE_RATE / 1.5;
+        var theta = animationTime / SCALE_RATE;
 
-        var octahedronScale = 1.25 * (Math.sin(theta) / 2 + 1 / 2);
-        var triambicScale = 0.92 * (-Math.sin(theta) / 2 + 1 / 2);
-        var compoundScale = (-Math.sin(theta) / 2 + 1 / 2);
+        var TRIG_SCALAR = 4;
 
-        this.shapes.octahedron.scale.set(octahedronScale, octahedronScale, octahedronScale);
-        this.shapes.compound.scale.set(compoundScale, compoundScale, compoundScale);
-        this.shapes.triambic.scale.set(triambicScale, triambicScale, triambicScale);
+        var yesScale = 1.35 * Math.pow(Math.min((Math.sin(theta) / 2 + 1 / 2), 1.0), 0.5);
+        var neutralScale = (Math.cos(theta) / 6 + 5 / 6);
 
-        if ( theta > Math.PI )
-            this.changeState( null );
+        this.shapes.no.scale.set( 0.001, 0.001, 0.001 );
+        this.shapes.yes.scale.set(yesScale, yesScale, yesScale);
+        this.shapes.neutral.scale.set(neutralScale, neutralScale, neutralScale);
+
+        if ( theta >= 1.8 * Math.PI )
+            this.null();
+    }
+
+    if ( this.state === false) {
+        if ( this.animationStart < 0 ) {
+            this.animationStart = t;
+        }
+        var animationTime = t - this.animationStart;
+        var theta = animationTime / SCALE_RATE;
+
+        var TRIG_SCALAR = 4;
+
+        var noScale = 1.9 * Math.pow(Math.min((Math.sin(theta) / 2 + 1 / 2), 1.0), 0.6);
+        var neutralScale = (Math.cos(theta) / 4 + 3 / 4);
+
+        this.shapes.yes.scale.set( 0.001, 0.001, 0.001 );
+        this.shapes.no.scale.set(noScale, noScale, noScale);
+        this.shapes.neutral.scale.set(neutralScale, neutralScale, neutralScale);
+
+        if ( theta >= 1.8 * Math.PI )
+            this.null();
     }
 };

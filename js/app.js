@@ -1,10 +1,10 @@
 (function() {
     var scene, camera, renderer;
 
+    var bit;
+
     init();
     animate();
-
-    var bit, octahedron, second;
 
     function init() {
         // Create the scene and set the scene size.
@@ -28,70 +28,16 @@
         light.position.set(10, 50, 130);
         scene.add(light);
 
-        var normalMaterial = new THREE.MeshNormalMaterial({
-            color: 0xCC0000
-        });
-
-        var neutralMaterial = new THREE.MeshLambertMaterial({
-            color: 0x6cd5ff,
-            shading: THREE.FlatShading
-        });
-
-        var yesMaterial = new THREE.MeshLambertMaterial({
-            color: 0xffcf00,
-            shading: THREE.FlatShading
-        });
-
-        var noMaterial = new THREE.MeshLambertMaterial({
-            color: 0xea2100,
-            shading: THREE.FlatShading
-        });
-
-        /*
-        triambic = new THREE.Mesh(
-            new THREE.SmallTriambicIcosahedronGeometry(5, 0),
-            neutralMaterial);
-        scene.add(triambic);
-
-        compound = new THREE.Mesh(
-            new THREE.CompoundDodecahedronIcosahedronGeometry(5, 0),
-            neutralMaterial);
-        scene.add(compound);
-        */
-
         bit = new Bit( 5 );
-        window.bit = bit;
         scene.add(bit);
 
-        octahedron = new THREE.Mesh(
-            new THREE.OctahedronGeometry(5, 0),
-            yesMaterial);
-        octahedron.position.set(10, 0, 0);
-        scene.add(octahedron);
-
-        second = new THREE.Mesh(
-            new THREE.SecondStellationIcosahdronGeometry(5, 0),
-            noMaterial);
-        second.position.set(-10, 0, 0);
-        scene.add(second);
-
-        /* Reference for doing a small triambic icosahedron
-         * http://mathworld.wolfram.com/SmallTriambicIcosahedron.html
-
-        var ico = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(3 * 0.9379624, 0),
-            normalMaterial);
-        ico.position.set(0, 8, 0);
-        scene.add(ico);
-
-        var dodec = new THREE.Mesh(
-            new THREE.DodecahedronGeometry(3, 0),
-            normalMaterial);
-        dodec.position.set(0, 8, 0);
-        scene.add(dodec);
-
-         */
-
+        // Bind events
+        document.getElementById('yes').onclick = function() {
+            bit.yes();
+        };
+        document.getElementById('no').onclick = function() {
+            bit.no();
+        };
     }
 
     var t = 0;
@@ -99,14 +45,8 @@
     function animate() {
         requestAnimationFrame(animate);
 
-        var TURN_RATE = 0.02;
-        var SCALE_RATE = Math.PI * 3;
-
         t += 1;
         bit.animate(t);
-
-        octahedron.rotation.y += TURN_RATE;
-        second.rotation.z += TURN_RATE;
 
         renderer.render(scene, camera);
     }
