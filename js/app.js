@@ -24,11 +24,14 @@
         //camera = new THREE.OrthographicCamera( WIDTH / - scale, WIDTH / scale, HEIGHT / scale, HEIGHT / - scale, -10, 10000 );
         scene.add(camera);
 
-        renderer.setClearColor(0x00262a, 1);
+        renderer.setClearColor(0x031f21, 1);
 
         var light = new THREE.PointLight(0xffffff);
         light.position.set(10, 50, 130);
         scene.add(light);
+
+        var ambient = new THREE.AmbientLight(0x052a2e);
+        scene.add(ambient);
 
         bit = new Bit( 5 );
         scene.add(bit);
